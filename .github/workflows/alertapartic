@@ -1,0 +1,60 @@
+name: Alerta Quinzenal
+
+on:
+  schedule:
+    - cron: "0 12 */14 * 1"   # 09h BRT (12h UTC), segundas de 14 em 14 dias
+  workflow_dispatch:          # permite rodar manualmente se precisar
+
+permissions:
+  contents: write  
+  pull-requests: write  
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    environment: email
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'  
+      - name: Create and activate virtual environment
+        run: |
+          python -m venv venv  
+          source venv/bin/activate
+
+       name: Install dependencies
+        run: |
+          source venv/bin/activate 
+          pip install --upgrade pip  
+          pip install -r requirements.txt  
+      - name: Run the Python script
+        env:
+            ACTIONS_STEP_DEBUG: true
+            API_USERNAME: "${{ vars.API_USERNAME }}"
+            API_PASSWORD: "${{ vars.API_PASSWORD }}"
+            API_URL: "${{ vars.API_URL }}"
+            DESTINATARIO_HMCG: "${{ vars.DESTINATARIO_HMCG }}"
+            DESTINATARIO_ROCIO: "${{ vars.DESTINATARIO_ROCIO }}"
+            DESTINATARIO_SCS: "${{ vars.DESTINATARIO_SCS }}"
+            DESTINATARIO_IIR: "${{ vars.DESTINATARIO_IIR }}"
+            DESTINATARIO_VIVIANE: "${{ vars.DESTINATARIO_VIVIANE }}"
+            DESTINATARIO_CAPIBERIBE: "${{ vars.DESTINATARIO_CAPIBERIBE }}"
+            ENVIAR_PARA: "${{ vars.ENVIAR_PARA }}"
+            ENVIO_PARA: "${{ vars.ENVIO_PARA }}"
+            EMAIL_USERNAME: "${{ vars.EMAIL_USERNAME }}"
+            EMAIL_PASSWORD: "${{ vars.EMAIL_PASSWORD }}"
+            EMAIL_SERVER: "${{ vars.EMAIL_SERVER }}"
+            EMAIL_PORT: "${{ vars.EMAIL_PORT }}"
+        shell: bash
+        run: |
+          source venv/bin/activate  
+          jupyter nbconvert --to notebook --execute --inplace push_campo.ipynb
+
+      - name: commiting notebook
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'Automated commit after running Python script'  
+          branch: 'main' 
+          file_pattern: 'push_estudospart.ipynb'
