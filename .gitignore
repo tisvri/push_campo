@@ -1,0 +1,18 @@
+.env
+.# ambiente virtual
+.venv/
+Lib/
+Scripts/
+etc/
+share/
+pyvenv.cfg
+
+# vscode
+.vscode/
+
+# dados locais
+*.csv
+*.xlsx
+
+# notebooks
+.ipynb_checkpoints/
