@@ -8,7 +8,25 @@ on:
 jobs:
   run-script:
     runs-on: ubuntu-latest
+    
+    env:
+      POLOTRIAL_URL: ${{ secrets.POLOTRIAL_URL }}
+      POLOTRIAL_USER: ${{ secrets.POLOTRIAL_USER }}
+      POLOTRIAL_PASSWORD: ${{ secrets.POLOTRIAL_PASSWORD }}
+      EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
+      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+      EMAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      ENVIO_PARA: ${{ secrets.ENVIO_PARA }}
+      ENVIAR_PARA: ${{ secrets.ENVIAR_PARA }}
+      DESTINATARIO_HMCG: ${{ secrets.DESTINATARIO_HMCG }}
+      DESTINATARIO_ROCIO: ${{ secrets.DESTINATARIO_ROCIO }}
+      DESTINATARIO_SCS: ${{ secrets.DESTINATARIO_SCS }}
+      DESTINATARIO_IIR: ${{ secrets.DESTINATARIO_IIR }}
+      DESTINATARIO_VIVIANE: ${{ secrets.DESTINATARIO_VIVIANE }}
+      DESTINATARIO_CAPIBERIBE: ${{ secrets.DESTINATARIO_CAPIBERIBE }}
 
+      
     steps:
       - name: Checkout do repositório
         uses: actions/checkout@v4
