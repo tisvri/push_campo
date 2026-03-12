@@ -42,5 +42,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Executar notebook
-        run: |
-          python -m nbconvert --to notebook --execute push_atualizacoes.ipynb
+       run: |
+        python -m nbconvert \
+          --to notebook \
+          --execute push_atualizacoes.ipynb \
+          --stdout
