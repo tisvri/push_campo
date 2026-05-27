@@ -15,7 +15,7 @@ jobs:
       POLOTRIAL_PASSWORD: ${{ secrets.POLOTRIAL_PASSWORD }}
       EMAIL_SERVER: ${{ secrets.EMAIL_SERVER }}
       EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
-      EMAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+      EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
       EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
       ENVIO_PARA: ${{ secrets.ENVIO_PARA }}
       ENVIAR_PARA: ${{ secrets.ENVIAR_PARA }}
