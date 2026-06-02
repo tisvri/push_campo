@@ -4,3 +4,5 @@ pandas
 schedule  
 python-dotenv
 jupyterlab
+gspread
+google-auth
