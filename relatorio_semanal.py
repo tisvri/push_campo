@@ -1,9 +1,3 @@
-"""
-relatorio_semanal.py
-Lê o log do Google Sheets e envia email de resumo semanal.
-Adicione este arquivo em UM dos repositórios (ou num repositório dedicado).
-"""
-
 import os
 import json
 import smtplib
@@ -43,7 +37,7 @@ def carregar_logs_semana():
 
     creds = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
     client = gspread.authorize(creds)
-    ws = client.open_by_key(sheet_id).worksheet("log_envios")
+    ws = client.open_by_key(sheet_id).worksheet("logs")
 
     registros = ws.get_all_records()  # lista de dicts com cabeçalho como chave
 

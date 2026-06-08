@@ -1,9 +1,3 @@
-"""
-log_envios.py
-Módulo compartilhado de logging para Google Sheets.
-Adicione este arquivo na raiz dos dois repositórios.
-"""
-
 import os
 import json
 import gspread
@@ -42,11 +36,11 @@ def _get_sheet():
     client = gspread.authorize(creds)
     sh = client.open_by_key(sheet_id)
 
-    # Cria a aba "log_envios" se não existir
+    # Cria a aba "logs" se não existir
     try:
-        ws = sh.worksheet("log_envios")
+        ws = sh.worksheet("logs")
     except gspread.exceptions.WorksheetNotFound:
-        ws = sh.add_worksheet(title="log_envios", rows=5000, cols=len(COLUNAS))
+        ws = sh.add_worksheet(title="logs", rows=5000, cols=len(COLUNAS))
         ws.append_row(COLUNAS)  # cabeçalho
 
     return ws
