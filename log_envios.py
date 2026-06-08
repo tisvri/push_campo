@@ -38,15 +38,15 @@ def _get_sheet():
             "Variáveis GOOGLE_CREDENTIALS_JSON e LOG_SHEET_ID são obrigatórias."
         )
 
-    creds  = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
+    creds = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
     client = gspread.authorize(creds)
-    sh     = client.open_by_key(sheet_id)
+    sh = client.open_by_key(sheet_id)
 
-    # Cria a aba "logs" se não existir
+    # Cria a aba "log_envios" se não existir
     try:
-        ws = sh.worksheet("logs")
+        ws = sh.worksheet("log_envios")
     except gspread.exceptions.WorksheetNotFound:
-        ws = sh.add_worksheet(title="logs", rows=5000, cols=len(COLUNAS))
+        ws = sh.add_worksheet(title="log_envios", rows=5000, cols=len(COLUNAS))
         ws.append_row(COLUNAS)  # cabeçalho
 
     return ws
