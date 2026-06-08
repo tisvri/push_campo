@@ -41,9 +41,9 @@ def carregar_logs_semana():
     creds_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
     sheet_id   = os.getenv("LOG_SHEET_ID")
 
-    creds  = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
+    creds = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
     client = gspread.authorize(creds)
-    ws     = client.open_by_key(sheet_id).worksheet("log_envios")
+    ws = client.open_by_key(sheet_id).worksheet("log_envios")
 
     registros = ws.get_all_records()  # lista de dicts com cabeçalho como chave
 
