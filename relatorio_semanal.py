@@ -162,11 +162,13 @@ def enviar_relatorio():
     msg["Subject"] = f"[Monitoramento] Relatório Semanal de Envios — {semana}"
     msg.attach(MIMEText(body, "html"))
 
+    destinatarios_relatorio = [e.strip() for e in RELATORIO_PARA.split(",") if e.strip()]
+    msg["To"] = ", ".join(destinatarios_relatorio)
+
     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
         server.starttls()
         server.login(EMAIL_USUARIO, EMAIL_SENHA)
-        destinatarios_relatorio = [e.strip() for e in RELATORIO_PARA.split(",") if e.strip()]
-        msg["To"] = ", ".join(destinatarios_relatorio)
+        
         server.sendmail(EMAIL_USUARIO, destinatarios_relatorio, msg.as_string())
 
     print(f"Relatório enviado para {RELATORIO_PARA} — {enviados} enviados, {pulados} pulados, {erros} erros.")
