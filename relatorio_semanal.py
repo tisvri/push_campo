@@ -43,7 +43,7 @@ def carregar_logs_semana():
 
     creds  = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
     client = gspread.authorize(creds)
-    ws     = client.open_by_key(sheet_id).worksheet("logs")
+    ws     = client.open_by_key(sheet_id).worksheet("log_envios")
 
     registros = ws.get_all_records()  # lista de dicts com cabeçalho como chave
 
@@ -166,8 +166,8 @@ def enviar_relatorio():
         server.starttls()
         server.login(EMAIL_USUARIO, EMAIL_SENHA)
         destinatarios_relatorio = [e.strip() for e in RELATORIO_PARA.split(",") if e.strip()]
-    msg["To"] = ", ".join(destinatarios_relatorio)
-    server.sendmail(EMAIL_USUARIO, destinatarios_relatorio, msg.as_string())
+        msg["To"] = ", ".join(destinatarios_relatorio)
+        server.sendmail(EMAIL_USUARIO, destinatarios_relatorio, msg.as_string())
 
     print(f"Relatório enviado para {RELATORIO_PARA} — {enviados} enviados, {pulados} pulados, {erros} erros.")
 
