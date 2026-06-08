@@ -165,10 +165,11 @@ def enviar_relatorio():
     destinatarios_relatorio = [e.strip() for e in RELATORIO_PARA.split(",") if e.strip()]
     msg["To"] = ", ".join(destinatarios_relatorio)
 
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT, timeout=30) as server:
+        server.ehlo()
         server.starttls()
+        server.ehlo()
         server.login(EMAIL_USUARIO, EMAIL_SENHA)
-        
         server.sendmail(EMAIL_USUARIO, destinatarios_relatorio, msg.as_string())
 
     print(f"Relatório enviado para {RELATORIO_PARA} — {enviados} enviados, {pulados} pulados, {erros} erros.")
