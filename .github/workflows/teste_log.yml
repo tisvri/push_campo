@@ -1,0 +1,16 @@
+name: Teste Log
+on:
+  workflow_dispatch:
+jobs:
+  teste:
+    runs-on: ubuntu-latest
+    env:
+      GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+      LOG_SHEET_ID: ${{ secrets.LOG_SHEET_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install gspread google-auth
+      - run: python teste_log.py
