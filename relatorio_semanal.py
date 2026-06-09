@@ -49,7 +49,7 @@ def carregar_logs_semana():
             if ts >= limite:
                 recentes.append(r)
         except (ValueError, KeyError):
-            continue  # ignora linha malformada
+            continue  # ignora linha malformada ou vazia
     return recentes
 
 
