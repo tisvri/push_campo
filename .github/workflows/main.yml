@@ -25,7 +25,8 @@ jobs:
       DESTINATARIO_IIR: ${{ secrets.DESTINATARIO_IIR }}
       DESTINATARIO_VIVIANE: ${{ secrets.DESTINATARIO_VIVIANE }}
       DESTINATARIO_CAPIBARIBE: ${{ secrets.DESTINATARIO_CAPIBARIBE }}
-
+      GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+      LOG_SHEET_ID: ${{ secrets.LOG_SHEET_ID }}
       
     steps:
       - name: Checkout do repositório
