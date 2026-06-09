@@ -23,26 +23,28 @@ COLUNAS = [
 
 
 def _get_sheet():
-    """Autentica e retorna a worksheet de log."""
     creds_json = os.getenv("GOOGLE_CREDENTIALS_JSON")
     sheet_id   = os.getenv("LOG_SHEET_ID")
+
+    print(f"[log_envios] GOOGLE_CREDENTIALS_JSON presente: {bool(creds_json)}")
+    print(f"[log_envios] LOG_SHEET_ID presente: {bool(sheet_id)}")
 
     if not creds_json or not sheet_id:
         raise ValueError(
             "Variáveis GOOGLE_CREDENTIALS_JSON e LOG_SHEET_ID são obrigatórias."
         )
 
-    creds = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
+    creds  = Credentials.from_service_account_info(json.loads(creds_json), scopes=SCOPES)
     client = gspread.authorize(creds)
-    sh = client.open_by_key(sheet_id)
+    sh     = client.open_by_key(sheet_id)
 
-    # Cria a aba "logs" se não existir
     try:
         ws = sh.worksheet("logs")
     except gspread.exceptions.WorksheetNotFound:
         ws = sh.add_worksheet(title="logs", rows=5000, cols=len(COLUNAS))
-        ws.append_row(COLUNAS)  # cabeçalho
+        ws.append_row(COLUNAS)
 
+    print(f"[log_envios] Conectado à aba 'logs' com sucesso")
     return ws
 
 
