@@ -42,10 +42,14 @@ def carregar_logs_semana():
     registros = ws.get_all_records()  # lista de dicts com cabeçalho como chave
 
     limite = datetime.now() - timedelta(days=7)
-    recentes = [
-        r for r in registros
-        if datetime.strptime(r["timestamp"], "%Y-%m-%d %H:%M:%S") >= limite
-    ]
+    recentes = []
+    for r in registros:
+        try:
+            ts = datetime.strptime(r["timestamp"], "%Y-%m-%d %H:%M:%S")
+            if ts >= limite:
+                recentes.append(r)
+        except (ValueError, KeyError):
+            continue  # ignora linha malformada
     return recentes
 
 
