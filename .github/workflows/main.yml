@@ -47,6 +47,28 @@ jobs:
           python -m nbconvert \
             --to notebook \
             --execute push_atualizacoes.ipynb \
+            --output push_atualizacoes_executado.ipynb \
             --ExecutePreprocessor.kernel_name=python3 \
-            --stdout
+            --ExecutePreprocessor.timeout=600
+        working-directory: ${{ github.workspace }}
+        env:
+          GOOGLE_CREDENTIALS_JSON: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          LOG_SHEET_ID: ${{ secrets.LOG_SHEET_ID }}
+
+      - name: Mostrar outputs do notebook
+        if: always()
+        run: |
+          python -c "
+          import json
+          with open('push_atualizacoes_executado.ipynb') as f:
+              nb = json.load(f)
+          for i, cell in enumerate(nb['cells']):
+              if cell.get('cell_type') != 'code': continue
+              outputs = cell.get('outputs', [])
+              if outputs:
+                  print(f'--- Célula {i} ---')
+                  for o in outputs:
+                      if 'text' in o: print(''.join(o['text']))
+                      if 'traceback' in o: print(''.join(o['traceback']))
+          "
         working-directory: ${{ github.workspace }}
