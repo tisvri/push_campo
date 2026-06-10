@@ -47,4 +47,6 @@ jobs:
           python -m nbconvert \
             --to notebook \
             --execute push_atualizacoes.ipynb \
+            --ExecutePreprocessor.kernel_name=python3 \
             --stdout
+        working-directory: ${{ github.workspace }}
