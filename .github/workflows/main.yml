@@ -57,18 +57,26 @@ jobs:
 
       - name: Mostrar outputs do notebook
         if: always()
+        continue-on-error: true
         run: |
           python -c "
-          import json
+          import json, os
+          if not os.path.exists('push_atualizacoes_executado.ipynb'):
+              print('Notebook não foi gerado — execução falhou antes de terminar')
+              exit(0)
           with open('push_atualizacoes_executado.ipynb') as f:
               nb = json.load(f)
           for i, cell in enumerate(nb['cells']):
               if cell.get('cell_type') != 'code': continue
               outputs = cell.get('outputs', [])
-              if outputs:
-                  print(f'--- Célula {i} ---')
-                  for o in outputs:
-                      if 'text' in o: print(''.join(o['text']))
-                      if 'traceback' in o: print(''.join(o['traceback']))
+              for o in outputs:
+                  if 'traceback' in o:
+                      print(f'ERRO na célula {i}:')
+                      print(''.join(o['traceback']))
+                  if o.get('output_type') == 'stream' and 'text' in o:
+                      texto = ''.join(o['text'])
+                      if any(x in texto for x in ['Erro', 'erro', 'Error', 'log_envios', 'enviado', 'Falha']):
+                          print(f'Célula {i}: {texto}')
+          print('Verificação concluída')
           "
         working-directory: ${{ github.workspace }}
